@@ -7,17 +7,17 @@ const hbs = require("hbs");
 var requests = require('requests');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const auth = require("./middleware/auth");
 const port = process.env.PORT || 3000;
 require("./db/conn");
 const Register = require("./models/registers");
+
 
 const static_path = path.join(__dirname,"../public");
 const template_path = path.join(__dirname,"../templates/views");
 const partials_path = path.join(__dirname,"../templates/partials");
 const homeFilepath = path.join(__dirname,"../templates/views/main1.hbs");
-
-
-
 
 app.use(express.static(static_path));
 hbs.registerPartials(partials_path);
@@ -26,6 +26,7 @@ app.set("views",template_path);
 
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended:false}));
 
 const homefile = fs.readFileSync(homeFilepath,'utf-8');
@@ -145,6 +146,12 @@ app.post("/register",async (req,res)=>{
         const token = await registerUser.generateAuthToken();
         console.log(token);
 
+        res.cookie("jwt",token,{
+            expires: new Date(Date.now() + 86400000),
+            httpOnly: true
+        });
+        
+
         const registered = await registerUser.save();
         res.status(201).render("successfully_registerd");
         
@@ -178,6 +185,14 @@ app.post("/login/main", async(req,res)=>{
         const token = await user1[0].generateAuthToken();
         console.log("The token is : " + token);
 
+        res.cookie("jwt",token,{
+            expires:new Date(Date.now() + 84600000),
+            httpOnly: true,
+            // secure :true,
+        });
+
+        console.log(req.cookies.jwt);
+
     if(isMatch){
         console.log("login successful!");
         requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
@@ -198,7 +213,7 @@ app.post("/login/main", async(req,res)=>{
     
 })
 
-app.get("/main",(req,res)=>{
+app.get("/main",auth,(req,res)=>{
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
     const objData  = JSON.parse(chunk);
@@ -210,7 +225,7 @@ app.get("/main",(req,res)=>{
 })
 
 
-app.get("/usa",(req,res)=>{
+app.get("/usa",auth,(req,res)=>{
     state = "us";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -222,7 +237,7 @@ app.get("/usa",(req,res)=>{
 })
 })
 
-app.get("/india",(req,res)=>{
+app.get("/india",auth,(req,res)=>{
     state = "in";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -234,7 +249,7 @@ app.get("/india",(req,res)=>{
 })
 })
 
-app.get("/politics",(req,res)=>{
+app.get("/politics",auth,(req,res)=>{
     type = "politics";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -247,7 +262,7 @@ app.get("/politics",(req,res)=>{
 })
 
 
-app.get("/sport",(req,res)=>{
+app.get("/sport",auth,(req,res)=>{
     type = "sport";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -259,7 +274,7 @@ app.get("/sport",(req,res)=>{
 })
 })
 
-app.get("/health",(req,res)=>{
+app.get("/health",auth,(req,res)=>{
     type = "health";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -271,7 +286,7 @@ app.get("/health",(req,res)=>{
 })
 })
 
-app.get("/business",(req,res)=>{
+app.get("/business",auth,(req,res)=>{
     type = "politics";
     requests(`https://newsapi.org/v2/top-headlines?country=${state}&category=${type}&apiKey=2009321247d646449fa8b447fef46a2f`)
     .on('data',(chunk)=>{
@@ -283,7 +298,7 @@ app.get("/business",(req,res)=>{
 })
 })
 
-app.get("/increase",(req,res)=>{
+app.get("/increase",auth,(req,res)=>{
     if(state == "in"){
         if(type == "business"){
             if(ib + 9 < news1){
@@ -330,7 +345,7 @@ app.get("/increase",(req,res)=>{
 
 })
 
-app.get("/decrease",(req,res)=>{
+app.get("/decrease",auth,(req,res)=>{
     if(state == "in"){
         if(type == "business"){
             if(ib - 9 >= 0){
@@ -402,8 +417,36 @@ app.get("/decrease",(req,res)=>{
     
 // })
 
-app.get("/account",(req,res)=>{
-    res.render("account");
+app.get("/logout",auth,async(req,res)=>{
+    try{
+        
+        req.user.tokens = req.user.tokens.filter((elem)=>{
+            return elem.token !== req.token
+        })
+
+        res.clearCookie("jwt");
+        console.log("logout successfully");
+
+        req.user.save();
+        res.render("login");
+    }catch(err){
+        res.status(500).send(err);
+    }
+})
+
+app.get("/outall",auth,async(req,res)=>{
+    try{
+        
+        req.user.tokens = [];
+
+        res.clearCookie("jwt");
+        console.log("logout successfully");
+
+        req.user.save();
+        res.render("login");
+    }catch(err){
+        res.status(500).send(err);
+    }
 })
 
 app.listen(port,()=>{
