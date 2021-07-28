@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/registration",{
+const mongoURL = process.env.MONGODB_URL || "mongodb://localhost:27017/registration"
+mongoose.connect(mongoURL,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true

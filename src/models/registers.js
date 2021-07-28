@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 const employeeSchema = new mongoose.Schema({
     fullname: {
         type: String,
