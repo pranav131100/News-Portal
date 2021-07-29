@@ -15,9 +15,9 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "hbs": "^4.1.1",
+    "hbs": "^4.1.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.19",
+    "mongoose": "^5.13.4",
     "requests": "^0.3.0"
   }
 }
