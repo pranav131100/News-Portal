@@ -254,7 +254,7 @@ input[type='submit'] {
 
 <script>
     //full name validation
-document.querySelector('#full-name').addEventListener('blur',(event)=>{
+document.querySelector('#fullname').addEventListener('blur',(event)=>{
     let err = document.querySelector(".error-messg");
     err.innerText = "";
     try{
@@ -281,12 +281,12 @@ document.querySelector('#full-name').addEventListener('blur',(event)=>{
 
 
 //to validate email
-document.querySelector('email').addEventListener('blur',(event)=>{
+document.querySelector('#email').addEventListener('blur',(event)=>{
     validateEmail(event);
 });
 
 //to validate confirm email
-document.querySelector('confirm_email').addEventListener('blur',(event)=>{
+document.querySelector('#confirm_email').addEventListener('blur',(event)=>{
     validateEmail(event);
     validateConfirmation(document.querySelector('#email'),event.target);
 });
@@ -331,7 +331,7 @@ function validateConfirmation(el,cEl){
 
 
 //validating contact number
-document.querySelector('contact_no').addEventListener('blur',function(event){
+document.querySelector('#contact_no').addEventListener('blur',function(event){
     let error = event.target.nextElementSibling ;
     error.innerText = "";
     try{
@@ -370,7 +370,7 @@ function displayPassword(event){
 
 
 //adding to password field
-document.querySelector("passkey").addEventListener('blur',validatePassword);
+document.querySelector("#passkey").addEventListener('blur',validatePassword);
 
 //password validation
 function validatePassword(event){
@@ -406,7 +406,7 @@ function validatePassword(event){
 
 
 //confirm password validation
-document.querySelector('confirm_passkey').addEventListener('blur',function(event){
+document.querySelector('#confirm_passkey').addEventListener('blur',function(event){
     try{
         var error = document.querySelectorAll('.error-messg')[5];
         error.innerText = "";
@@ -429,7 +429,7 @@ document.querySelector('confirm_passkey').addEventListener('blur',function(event
     }
 });
 
-console.log(document.querySelector('email'));
+//console.log(document.querySelector('email'));
 </script>
 </body>
 </html>
