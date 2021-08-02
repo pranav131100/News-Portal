@@ -254,7 +254,7 @@ input[type='submit'] {
 
 <script>
     //full name validation
-document.querySelector('#fullname').addEventListener('blur',(event)=>{
+document.querySelector('#full-name').addEventListener('blur',(event)=>{
     let err = document.querySelector(".error-messg");
     err.innerText = "";
     try{
@@ -331,7 +331,7 @@ function validateConfirmation(el,cEl){
 
 
 //validating contact number
-document.querySelector('#contact_no').addEventListener('blur',function(event){
+document.querySelector('#contact-no').addEventListener('blur',function(event){
     let error = event.target.nextElementSibling ;
     error.innerText = "";
     try{
@@ -406,7 +406,7 @@ function validatePassword(event){
 
 
 //confirm password validation
-document.querySelector('#confirm_passkey').addEventListener('blur',function(event){
+document.querySelector('#confirm-passkey').addEventListener('blur',function(event){
     try{
         var error = document.querySelectorAll('.error-messg')[5];
         error.innerText = "";
