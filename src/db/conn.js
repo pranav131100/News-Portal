@@ -3,7 +3,7 @@ const mongoURL = "mongodb+srv://abc:abcPranav123@cluster0.to716.mongodb.net/myFi
 mongoose.connect("mongodb+srv://abc:abcPranav123@cluster0.to716.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: false,
+    useCreateIndex: true,
     useFindAndModify: false
     
 }).then(()=>{
