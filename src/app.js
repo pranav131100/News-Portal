@@ -77,7 +77,7 @@ const replaceVal = (tempval,orgVal)=>{
     }
     let value;
     if(((num-1+n) <= vals - 1) && (num-1+n >= 0 ) ){
-    value = tempval.replace(`{%title${num}%}`,orgVal.articles[num-1+n].title);
+    value =tempval .replace(`{%title${num}%}`,orgVal.articles[num-1+n].title);
     value = value.replace("{%mail%}",mail);
     value = value.replace(`{%description${num}%}`,orgVal.articles[num-1+n].description);
     value = value.replace(`{%img${num}%}`,orgVal.articles[num-1+n].urlToImage);
@@ -146,7 +146,7 @@ app.post("/register",async (req,res)=>{
         const token = await registerUser.generateAuthToken();
         console.log(token);
 
-        res.cookie("jwt",token,{
+        res.cookie("jwtook",token,{
             expires: new Date(Date.now() + 86400000),
             httpOnly: true
         });

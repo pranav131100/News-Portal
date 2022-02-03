@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
         * {
   margin: 0;
   padding: 0;
@@ -12,7 +14,7 @@
           box-sizing: border-box; }
 
 body {
-  font-family: 'Montserrat', sans-serif; }
+  font-family: "Poppins", sans-serif !important; }
 
 .wrapper {
   position: absolute;
@@ -22,9 +24,11 @@ body {
           transform: translate(-50%, -50%);
   width: 70%;
   margin: 0 auto;
-  background: #EBEBEB;
+  background: #fff;
   padding: 20px 30px;
-  border-radius: 8px; }
+  border-radius: 8px; 
+    box-shadow: 5px 15px 10px 3px rgb(0 0 0 / 30%);
+  }
 
 h1 {
   text-align: center; }
@@ -73,7 +77,7 @@ label {
   border-radius: 3px;
   outline: none;
   border: none;
-  border-bottom: 2px solid black; }
+  border-bottom: 2px solid #9b5df5; }
 
 .passkey-box {
   position: relative; }
@@ -87,7 +91,7 @@ label {
   font-size: 1.2em; }
 
 .field-container > input:focus, .passkey-box > input:focus {
-  border-bottom: 2px solid dodgerBlue; }
+  border-bottom: 2px solid #9b5df5; }
 
 .error-messg {
   display: block;
@@ -100,7 +104,7 @@ label {
 input[type='submit'] {
   padding: 10px 30px;
   font-size: 1.2em;
-  background: dodgerBlue;
+  background: #9b5df5;
   border: 1px solid white;
   outline: none;
   color: white;
@@ -184,7 +188,7 @@ input[type='submit'] {
     
 <!--Main wrapper-->
 <div class="wrapper">
-    <h1>Registration form</h1>
+    <h1 style="color: #9b5df5;">Registration form</h1>
 
     <!--form container-->
     <div class="form-container">
